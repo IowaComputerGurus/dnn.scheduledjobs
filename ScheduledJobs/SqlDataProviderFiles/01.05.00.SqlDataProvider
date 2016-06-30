@@ -1,0 +1,38 @@
+﻿IF NOT EXISTS(SELECT * FROM {databaseOwner}[{objectQualifier}ICG_SJ_JobTypes] WHERE JobTitle = 'Truncate EventLog')
+BEGIN
+	INSERT INTO {databaseOwner}[{objectQualifier}ICG_SJ_JobTypes]
+		(JobTitle, JobDescription, IsCannedJob, CannedProcedure)
+	VALUES
+		('Truncate EventLog', 'This method clears the EventLog, removing <strong>ALL</strong> entries!',
+			 1, 'ICG_SJ_TruncateEventLog')
+			 
+	INSERT INTO {databaseOwner}[{objectQualifier}ICG_SJ_JobTypes]
+		(JobTitle, JobDescription, IsCannedJob, CannedProcedure)
+	VALUES
+		('Truncate SiteLog', 'This method clears the SiteLog, removing <strong>ALL</strong> entries!',
+			 1, 'ICG_SJ_TruncateSiteLog')
+END
+
+GO
+
+
+IF EXISTS (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_SJ_TruncateEventLog]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_SJ_TruncateEventLog]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_SJ_TruncateEventLog]
+AS
+TRUNCATE TABLE {databaseOwner}[{objectQualifier}EventLog]
+
+GO
+
+IF EXISTS (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_SJ_TruncateSiteLog]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_SJ_TruncateSiteLog]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_SJ_TruncateSiteLog]
+AS
+TRUNCATE TABLE {databaseOwner}[{objectQualifier}SiteLog]
+
+GO
+

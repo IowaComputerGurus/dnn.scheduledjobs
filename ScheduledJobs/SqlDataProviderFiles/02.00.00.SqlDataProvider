@@ -1,0 +1,63 @@
+﻿--Expand table size
+ALTER TABLE {databaseOwner}[{objectQualifier}ICG_SJ_JobTypes]
+	ALTER COLUMN CannedProcedure VARCHAR(MAX)
+GO
+
+
+IF EXISTS (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_SJ_GetEditableJobTypes]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_SJ_GetEditableJobTypes]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_SJ_GetEditableJobTypes]
+AS
+SELECT
+	JobTypeId,
+	JobTitle,
+	JobDescription,
+	IsCannedJob,
+	CannedProcedure
+FROM {databaseOwner}[{objectQualifier}ICG_SJ_JobTypes]
+WHERE IsCannedJob = 0
+ORDER BY JobTitle
+GO
+
+IF EXISTS (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_SJ_SaveJobType]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_SJ_SaveJobType]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_SJ_SaveJobType]
+	@JobTypeId INT,
+	@JobTitle VARCHAR(255),
+	@JobDescription TEXT,
+	@IsCannedJob BIT,
+	@CannedProcedure VARCHAR(MAX)
+AS
+IF(@JobTypeId <= 0)
+BEGIN
+	INSERT INTO {databaseOwner}[{objectQualifier}ICG_SJ_JobTypes] (JobTitle, JobDescription, IsCannedJob, CannedProcedure)
+	VALUES(@JobTitle, @JobDescription, @IsCannedJob, @CannedProcedure)
+END
+ELSE
+BEGIN
+	UPDATE {databaseOwner}[{objectQualifier}ICG_SJ_JobTypes]
+	SET JobTitle = @JobTitle,
+		JobDescription = @JobDescription,
+		IsCannedJob = @IsCannedJob,
+		CannedProcedure = @CannedProcedure
+	WHERE JobTypeId = @JobTypeId
+END
+GO
+
+IF EXISTS (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_SJ_DeleteJobType]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_SJ_DeleteJobType]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_SJ_DeleteJobType]
+	@JobTypeId INT
+AS
+DELETE FROM {databaseOwner}[{objectQualifier}ICG_SJ_JobTypes]
+WHERE JobTypeId = @JobTypeId
+
+GO
+
+

@@ -1,0 +1,4 @@
+﻿\DesktopModules\ScheduledSqlJobs\DataProviderFiles\01.00.00.sqldataprovider
+\DesktopModules\ScheduledSqlJobs\DataProviderFiles\01.05.00.sqldataprovider
+\DesktopModules\ScheduledSqlJobs\DataProviderFiles\02.00.00.sqldataprovider
+\DesktopModules\ScheduledSqlJobs\DataProviderFiles\Uninstall.sqldataprovider

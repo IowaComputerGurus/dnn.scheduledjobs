@@ -1,0 +1,286 @@
+﻿IF NOT EXISTS (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_SJ_JobTypes]') and OBJECTPROPERTY(id, N'IsTable') = 1)
+BEGIN
+CREATE TABLE {databaseOwner}[{objectQualifier}ICG_SJ_JobTypes](
+	[JobTypeId] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	[JobTitle] [varchar](255) NULL,
+	[JobDescription] [text] NULL,
+	[IsCannedJob] [bit] NOT NULL DEFAULT ((0)),
+	[CannedProcedure] [varchar](500) NULL
+) 
+
+INSERT INTO {databaseOwner}[{objectQualifier}ICG_SJ_JobTypes]
+	(JobTitle, JobDescription, IsCannedJob, CannedProcedure)
+VALUES
+	('Clean Event Log', 'This method will clean the event log, leaving 7 days of entries',
+		 1, 'ICG_SJ_CleanEventLog')
+
+INSERT INTO {databaseOwner}[{objectQualifier}ICG_SJ_JobTypes]
+	(JobTitle, JobDescription, IsCannedJob, CannedProcedure)
+VALUES
+	('Clean Site Log', 'This method will clean the site log, leaving 7 days of entries',
+		 1, 'ICG_SJ_CleanSiteLog')
+
+INSERT INTO {databaseOwner}[{objectQualifier}ICG_SJ_JobTypes]
+	(JobTitle, JobDescription, IsCannedJob, CannedProcedure)
+VALUES
+	('Shrink Database', 'This method will shrink the database to reclaim space, ONLY one 1 time per week max',
+		 1, 'ICG_SJ_ShrinkDatabase')
+
+END
+GO
+
+IF EXISTS (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_SJ_CleanEventLog]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_SJ_CleanEventLog]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_SJ_CleanEventLog]
+AS
+DELETE FROM {databaseOwner}[{objectQualifier}EventLog]
+WHERE LogCreateDate < DATEADD(dd, -7, GETDATE())
+
+GO
+
+IF EXISTS (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_SJ_CleanSiteLog]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_SJ_CleanSiteLog]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_SJ_CleanSiteLog]
+AS
+DELETE FROM {databaseOwner}[{objectQualifier}SiteLog]
+WHERE [DateTime] < DATEADD(dd, -7, GETDATE())
+
+GO
+
+IF EXISTS (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_SJ_ShrinkDatabase]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_SJ_ShrinkDatabase]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_SJ_ShrinkDatabase]
+AS
+DECLARE @dbName VARCHAR(500)
+SET @dbName = db_Name()
+DBCC SHRINKDATABASE(@dbName)
+
+GO
+
+IF EXISTS (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_SJ_GetJobTypes]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_SJ_GetJobTypes]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_SJ_GetJobTypes]
+AS
+SELECT
+	JobTypeId,
+	JobTitle,
+	JobDescription,
+	IsCannedJob,
+	CannedProcedure
+FROM {databaseOwner}[{objectQualifier}ICG_SJ_JobTypes]
+ORDER BY JobTitle
+GO
+
+IF EXISTS (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_SJ_GetJobTypeById]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_SJ_GetJobTypeById]
+GO
+
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_SJ_GetJobTypeById]
+	@JobTypeId INT
+AS
+SELECT
+	JobTypeId,
+	JobTitle,
+	JobDescription,
+	IsCannedJob,
+	CannedProcedure
+FROM {databaseOwner}[{objectQualifier}ICG_SJ_JobTypes]
+WHERE JobTypeId = @JobTypeId
+GO
+
+IF NOT EXISTS (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_SJ_JobSchedule]') and OBJECTPROPERTY(id, N'IsTable') = 1)
+BEGIN
+CREATE TABLE {databaseOwner}[{objectQualifier}ICG_SJ_JobSchedule](
+	[JobScheduleId] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	[JobTypeId] [int] NULL,
+	[JobScript] [text],
+	[JobFrequencyValue] [int] NULL,
+	[JobFrequencyType] [varchar](5) NULL,
+	[NextJobRun] [datetime] NULL,
+	[LastJobRun] [datetime] NULL
+)
+
+--Add Foreign key
+
+END
+GO
+
+IF EXISTS (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_SJ_GetJobSchedule]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_SJ_GetJobSchedule]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_SJ_GetJobSchedule]
+AS
+SELECT
+	JobScheduleId,
+	JS.JobTypeId,
+	JobTitle,
+	JobScript,
+	JobFrequencyValue,
+	JobFrequencyType,
+	NextJobRun,
+	LastJobRun
+FROM {databaseOwner}[{objectQualifier}ICG_SJ_JobSchedule] JS
+	INNER JOIN {databaseOwner}[{objectQualifier}ICG_SJ_JobTypes] JT
+		ON (JS.JobTypeId = JT.JobTypeId)
+ORDER BY NextJobRun, JobTitle
+
+GO
+
+IF EXISTS (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_SJ_GetJobScheduleItemById]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_SJ_GetJobScheduleItemById]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_SJ_GetJobScheduleItemById]
+	@JobScheduleId INT
+AS
+SELECT
+	JobScheduleId,
+	JS.JobTypeId,
+	JobTitle,
+	JobScript,
+	JobFrequencyValue,
+	JobFrequencyType,
+	NextJobRun,
+	LastJobRun
+FROM {databaseOwner}[{objectQualifier}ICG_SJ_JobSchedule] JS
+	INNER JOIN {databaseOwner}[{objectQualifier}ICG_SJ_JobTypes] JT
+		ON (JS.JobTypeId = JT.JobTypeId)
+WHERE JobScheduleId = @JobScheduleId
+
+GO
+
+IF EXISTS (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_SJ_SaveJobScheduleItem]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_SJ_SaveJobScheduleItem]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_SJ_SaveJobScheduleItem]
+	@JobScheduleId INT,
+	@JobTypeId INT,
+	@JobScript TEXT,
+	@JobFrequencyValue INT,
+	@JobFrequencyType VARCHAR(5),
+	@NextJobRun DATETIME,
+	@LastJobRun DATETIME
+AS
+IF (@JobScheduleId = -1)
+BEGIN
+	INSERT INTO {databaseOwner}[{objectQualifier}ICG_SJ_JobSchedule]
+		(JobTypeId, JobScript, JobFrequencyValue, JobFrequencyType, NextJobRun, LastJobRun)
+	VALUES
+		(@JobTypeId, @JobScript, @JobFrequencyValue, @JobFrequencyType, @NextJobRun, @LastJobRun)
+END
+ELSE
+BEGIN
+	UPDATE {databaseOwner}[{objectQualifier}ICG_SJ_JobSchedule]
+	SET	JobTypeId = @JobTypeId,
+		JobScript = @JobScript,
+		JobFrequencyValue = @JobFrequencyValue,
+		JobFrequencyType = @JobFrequencyType,
+		NextJobRun = @NextJobRun,
+		LastJobRun = @LastJobRun
+	WHERE JobScheduleId = @JobScheduleId
+END
+
+GO
+
+IF EXISTS (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_SJ_GetJobScheduleItemsToRun]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_SJ_GetJobScheduleItemsToRun]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_SJ_GetJobScheduleItemsToRun]
+AS
+SELECT
+	JobScheduleId,
+	JS.JobTypeId,
+	JobTitle,
+	JobScript,
+	JobFrequencyValue,
+	JobFrequencyType,
+	NextJobRun,
+	LastJobRun
+FROM {databaseOwner}[{objectQualifier}ICG_SJ_JobSchedule] JS
+	INNER JOIN {databaseOwner}[{objectQualifier}ICG_SJ_JobTypes] JT
+		ON (JS.JobTypeId = JT.JobTypeId)
+WHERE NextJobRun < GETDATE()
+
+GO
+
+IF EXISTS (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_SJ_DeleteJobScheduleItem]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_SJ_DeleteJobScheduleItem]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_SJ_DeleteJobScheduleItem]
+	@jobScheduleId INT
+AS
+DELETE FROM {databaseOwner}[{objectQualifier}ICG_SJ_JobSchedule] 
+WHERE JobScheduleId = @JobScheduleId
+
+GO
+
+
+IF NOT EXISTS (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_SJ_JobScheduleHistory]') and OBJECTPROPERTY(id, N'IsTable') = 1)
+BEGIN
+CREATE TABLE {databaseOwner}[{objectQualifier}ICG_SJ_JobScheduleHistory](
+	[JobScheduleHistoryId] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	[JobScheduleId] [int] NULL,
+	[ExecuteTime] [datetime] NULL,
+	[Successful] [bit] NOT NULL DEFAULT ((0)),
+	[Detail] [text] NULL
+)
+
+--Add FK
+
+END
+GO
+
+IF EXISTS (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_SJ_GetJobScheduleHistory]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_SJ_GetJobScheduleHistory]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_SJ_GetJobScheduleHistory]
+	@JobScheduleId INT
+AS
+SELECT 
+	JobScheduleHistoryId,
+	JobScheduleId,
+	ExecuteTime,
+	Successful,
+	Detail
+FROM {databaseOwner}[{objectQualifier}ICG_SJ_JobScheduleHistory]
+WHERE JobScheduleId = @JobScheduleId
+ORDER BY ExecuteTime DESC
+
+GO
+
+IF EXISTS (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_SJ_InsertJobScheduleHistory]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_SJ_InsertJobScheduleHistory]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_SJ_InsertJobScheduleHistory]
+	@JobScheduleId INT,
+	@ExecuteTime DATETIME,
+	@Successful BIT,
+	@Detail TEXT
+AS
+--Remove old items
+DELETE FROM {databaseOwner}[{objectQualifier}ICG_SJ_JobScheduleHistory]
+WHERE ExecuteTime < DATEADD(dd, -7, GETDATE())
+
+--Insert new item
+INSERT INTO {databaseOwner}[{objectQualifier}ICG_SJ_JobScheduleHistory]
+	(JobScheduleId, ExecuteTime, Successful, Detail)
+VALUES
+	(@JobScheduleId, @ExecuteTime, @Successful, @Detail)
+GO
+
+

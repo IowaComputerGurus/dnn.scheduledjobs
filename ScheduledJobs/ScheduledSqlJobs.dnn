@@ -1,0 +1,110 @@
+<dotnetnuke type="Package" version="5.0">
+  <packages>
+    <package name="ICG.Modules.ScheduledSqlJobs" type="Module" version="07.00.00">
+      <friendlyName>Scheduled SQL Jobs</friendlyName>
+      <description>A module for running SQL Jobs at regular intervals across your DotNetNuke based site</description>
+      <owner>
+        <name>IowaComputerGurus Inc.</name>
+        <organization>IowaComputerGurus Inc.</organization>
+        <url>http://www.iowacomputergurus.com</url>
+        <email>webmaster@iowacomputergurus.com</email>
+      </owner>
+      <license src="License.txt" />
+      <releaseNotes src="ReleaseNotes.txt" />
+      <components>
+
+        <component type="ResourceFile">
+          <resourceFiles>
+            <basePath>DesktopModules/ScheduledSqlJobs</basePath>
+            <resourceFile>
+              <name>Resources.zip</name>
+            </resourceFile>
+          </resourceFiles>
+        </component>
+
+        <component type="Cleanup" version="07.00.00" />
+
+        <component type="Script">
+          <scripts>
+            <basePath>DesktopModules\ScheduledSqlJobs</basePath>
+            <script type="Install">
+              <path>SqlDataProviderFiles</path>
+              <name>01.00.00.SqlDataProvider</name>
+              <version>01.00.00</version>
+            </script>
+            <script type="Install">
+              <path>SqlDataProviderFiles</path>
+              <name>01.05.00.SqlDataProvider</name>
+              <version>01.05.00</version>
+            </script>
+            <script type="Install">
+              <path>SqlDataProviderFiles</path>
+              <name>02.00.00.SqlDataProvider</name>
+              <version>02.00.00</version>
+            </script>
+            <script type="UnInstall">
+              <path>SqlDataProviderFiles</path>
+              <name>Uninstall.SqlDataProvider</name>
+              <version>06.00.00</version>
+            </script>
+          </scripts>
+        </component>
+
+        <component type="Module">
+          <desktopModule>
+            <moduleName>ICG.Modules.ScheduledSqlJobs</moduleName>
+            <foldername>ScheduledSqlJobs</foldername>
+            <supportedFeatures />
+            <moduleDefinitions>
+              <moduleDefinition>
+                <friendlyName>ScheduledSqlJobs</friendlyName>
+                <defaultCacheTime>0</defaultCacheTime>
+                <moduleControls>
+                  <moduleControl>
+                    <controlKey />
+                    <controlSrc>DesktopModules/ScheduledSqlJobs/ViewScheduledSqlJobs.ascx</controlSrc>
+                    <supportsPartialRendering>True</supportsPartialRendering>
+                    <controlTitle />
+                    <controlType>View</controlType>
+                    <iconFile />
+                    <helpUrl />
+                    <viewOrder>0</viewOrder>
+                  </moduleControl>
+                  <moduleControl>
+                    <controlKey>Settings</controlKey>
+                    <controlSrc>DesktopModules/ScheduledSqlJobs/Settings.ascx</controlSrc>
+                    <supportsPartialRendering>False</supportsPartialRendering>
+                    <controlTitle>Scheduled SQL Jobs Settings</controlTitle>
+                    <controlType>Edit</controlType>
+                    <iconFile />
+                    <helpUrl />
+                    <viewOrder>0</viewOrder>
+                  </moduleControl>
+                  <moduleControl>
+                    <controlKey>ManageJobs</controlKey>
+                    <controlSrc>DesktopModules/ScheduledSqlJobs/ManageJobs.ascx</controlSrc>
+                    <supportsPartialRendering>False</supportsPartialRendering>
+                    <controlTitle>Manage Sql Jobs</controlTitle>
+                    <controlType>Host</controlType>
+                    <iconFile />
+                    <helpUrl />
+                    <viewOrder>0</viewOrder>
+                  </moduleControl>
+                </moduleControls>
+              </moduleDefinition>
+            </moduleDefinitions>
+          </desktopModule>
+        </component>
+
+        <component type="Assembly">
+          <assemblies>
+            <basePath>bin</basePath>
+            <assembly>
+              <name>ICG.Modules.ScheduledSqlJobs.dll</name>
+            </assembly>
+          </assemblies>
+        </component>
+      </components>
+    </package>
+  </packages>
+</dotnetnuke>
