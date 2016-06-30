@@ -11,12 +11,14 @@
 <asp:Panel ID="pnlViewJobs" runat="server" CssClass="Normal" Visible="false">
     <asp:Label ID="lblViewHeader" runat="server" resourcekey="lblViewHeader" />
     <p>
-        <asp:LinkButton ID="btnAddJob" runat="server" CssClass="CommandButton" 
-            resourcekey="btnAddJob" onclick="btnAddJob_Click" />
+        <asp:LinkButton ID="btnAddJob" runat="server" CssClass="dnnPrimaryAction" resourcekey="btnAddJob" onclick="btnAddJob_Click" />
     </p>
-    <asp:DataGrid ID="dgrJobs" runat="server" CssClass="Normal" CellSpacing="4"
+
+    <asp:DataGrid ID="dgrJobs" runat="server" CssClass="dnnGrid" CellSpacing="4"
         AutoGenerateColumns="false" Width="100%" onitemcommand="dgrJobs_ItemCommand">
-        <HeaderStyle CssClass="SubHead" />
+        <HeaderStyle CssClass="dnnGridHeader" />
+        <ItemStyle CssClass="dnnGridItem"/>
+        <AlternatingItemStyle CssClass="dnnGridAltItem"/>
         <Columns>
             <asp:BoundColumn DataField="JobScheduleId" Visible="false" />
             <asp:BoundColumn DataField="JobTitle" HeaderText="JobTitle" />
@@ -43,69 +45,46 @@
 <asp:Panel ID="pnlAddEditJobs" runat="server" CssClass="Normal" Visible="false">
     <asp:Label ID="lblAddEditHeader" runat="server" CssClass="Normal" resourcekey="lblAddEditHeader" />
     <asp:HiddenField ID="hfJobId" runat="server" />
-    <table class="Normal">
-        <tr>
-            <td class="SubHead" width="150">
-                <dnn:label id="lblJobType" runat="server" controlname="ddlJobType" suffix=":" />
-            </td>
-            <td>
-                <asp:DropDownList ID="ddlJobType" runat="server" AutoPostBack="true" 
-                    onselectedindexchanged="ddlJobType_SelectedIndexChanged" />
-            </td>
-        </tr>
-        <tr>
-            <td class="SubHead" width="150">
-                <dnn:label id="lblJobDescription" runat="server" controlname="lblJobDescriptionDisplay" suffix=":" />
-            </td>
-            <td>
-                <asp:Label ID="lblJobDescriptionDisplay" runat="server" />
-            </td>
-        </tr>
-        <tr>
-            <td class="SubHead" width="150">
-                <dnn:label id="lblJobScript" runat="server" controlname="lblJobScriptDisplay" suffix=":" />
-            </td>
-            <td>
-                <asp:Label ID="lblJobScriptDisplay" runat="server" />
-            </td>
-        </tr>
-        <tr>
-            <td class="SubHead" width="150">
-                <dnn:label id="lblJobFrequency" runat="server" controlname="txtJobFrequency" suffix=":" />
-            </td>
-            <td>
-                <asp:TextBox ID="txtJobFrequency" runat="server" MaxLength="3" Columns="3" />
+    <div class="dnnForm">
+        <div class="dnnFormItem">
+            <dnn:label id="lblJobType" runat="server" controlname="ddlJobType" suffix=":" />
+            <asp:DropDownList ID="ddlJobType" runat="server" AutoPostBack="true" onselectedindexchanged="ddlJobType_SelectedIndexChanged" />
+        </div>
+        <div class="dnnFormItem">
+            <dnn:label id="lblJobDescription" runat="server" controlname="lblJobDescriptionDisplay" suffix=":" />
+            <asp:Label ID="lblJobDescriptionDisplay" runat="server" />
+        </div>
+        <div class="dnnFormItem">
+            <dnn:label id="lblJobScript" runat="server" controlname="lblJobScriptDisplay" suffix=":" />
+            <asp:Label ID="lblJobScriptDisplay" runat="server" />
+        </div>
+        <div class="dnnFormItem">
+            <dnn:label id="lblJobFrequency" runat="server" controlname="txtJobFrequency" suffix=":" />
+            <asp:TextBox ID="txtJobFrequency" runat="server" MaxLength="3" Columns="3" />
                 <asp:DropDownList ID="ddlJobFrequency" runat="server">
                     <asp:ListItem Text="Hours" Value="Hours" />
                     <asp:ListItem Text="Days" Value="Days" />
                     <asp:ListItem Text="Weeks" Value="Weeks" />
                 </asp:DropDownList>
-                <asp:RequiredFieldValidator ID="JobFrequencyRequired" runat="server" CssClass="NormalRed" Display="Dynamic"
-                    ControlToValidate="txtJobFrequency" resourcekey="JobFrequencyRequired" />
-                <asp:CompareValidator ID="JobFrequencyFormat" runat="server" CssClass="NormalRed" Display="Dynamic"
-                    ControlToValidate="txtJobFrequency" Type="Integer" Operator="DataTypeCheck" resourcekey="JobFrequencyFormat" />
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">&nbsp;</td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <asp:LinkButton ID="btnSave" runat="server" CssClass="CommandButton" 
-                    resourcekey="btnSave" onclick="btnSave_Click" />
-                &nbsp;&nbsp;
-                <asp:LinkButton ID="btnCancel" runat="server" CssClass="CommandButton" 
-                    resourcekey="btnCancel" CausesValidation="false" onclick="btnCancel_Click" />
-            </td>
-        </tr>
-    </table>
+                <asp:RequiredFieldValidator ID="JobFrequencyRequired" runat="server" CssClass="dnnFormMessage dnnFormError" Display="Dynamic" ControlToValidate="txtJobFrequency" resourcekey="JobFrequencyRequired" />
+                <asp:CompareValidator ID="JobFrequencyFormat" runat="server" CssClass="dnnFormMessage dnNFormError" Display="Dynamic" ControlToValidate="txtJobFrequency" Type="Integer" Operator="DataTypeCheck" resourcekey="JobFrequencyFormat" />
+        </div>
+        <ul class="dnnActions">
+            <li><asp:LinkButton ID="btnSave" runat="server" CssClass="dnnPrimaryAction" resourcekey="btnSave" onclick="btnSave_Click" /></li>
+            <li><asp:LinkButton ID="btnCancel" runat="server" CssClass="dnnSecondaryAction" resourcekey="btnCancel" CausesValidation="false" onclick="btnCancel_Click" /></li>
+        </ul>
+    </div>
+
+
 </asp:Panel>
 
 <asp:Panel ID="pnlJobHistory" runat="server" CssClass="Normal" Visible="false">
     <asp:Label ID="lblJobHistoryHeader" runat="server" resourcekey="lblJobHistoryHeader" />
-    <asp:DataGrid ID="dgrHistory" runat="server" CssClass="Normal" CellSpacing="4"
+    <asp:DataGrid ID="dgrHistory" runat="server" CssClass="dnnGrid" CellSpacing="4"
         AutoGenerateColumns="false" >
-        <HeaderStyle CssClass="SubHead" />
+        <HeaderStyle CssClass="dnnGridHeader" />
+        <ItemStyle CssClass="dnnGridItem"/>
+        <AlternatingItemStyle CssClass="dnnGridAltItem"/>
         <Columns>
             <asp:BoundColumn DataField="ExecuteTime" HeaderText="ExecuteTime" />
             <asp:BoundColumn DataField="Successful" HeaderText="Successful" />
@@ -113,11 +92,10 @@
         </Columns>
     </asp:DataGrid>
     <p>
-        <asp:LinkButton ID="btnReturn" runat="server" CssClass="CommandButton" 
-            resourcekey="btnReturn" onclick="btnReturn_Click" />
+        <asp:LinkButton ID="btnReturn" runat="server" CssClass="dnnPrimaryAction" resourcekey="btnReturn" onclick="btnReturn_Click" />
     </p>
 </asp:Panel>
 
 <p class="Normal">
-<a href="http://www.iowacomputergurus.com/free-products/dotnetnuke-modules/scheduled-sql-jobs.aspx" target="_blank" class="CommandButton">Scheduled SQL Jobs is a free module provided by IowaComputerGurus Inc. (Donations Appreciated)</a>
+<a href="http://www.iowacomputergurus.com/Products/Open-Source" target="_blank" class="CommandButton">Scheduled SQL Jobs is a free module provided by IowaComputerGurus Inc. (Donations Appreciated)</a>
 </p>
