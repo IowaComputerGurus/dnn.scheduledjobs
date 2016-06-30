@@ -110,6 +110,7 @@
     <Content Include="packages.config" />
     <None Include="SqlDataProviderFiles\01.00.00.SqlDataProvider" />
     <None Include="SqlDataProviderFiles\01.05.00.SqlDataProvider" />
+    <Content Include="SqlDataProviderFiles\07.04.00.SqlDataProvider" />
     <None Include="SqlDataProviderFiles\02.00.00.SqlDataProvider" />
     <None Include="ScheduledSqlJobs.dnn" />
     <None Include="SqlDataProviderFiles\Uninstall.SqlDataProvider" />

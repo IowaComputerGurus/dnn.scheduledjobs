@@ -1,0 +1,10 @@
+﻿IF EXISTS (select * from dbo.sysobjects where id = object_id(N'{databaseOwner}[{objectQualifier}ICG_SJ_TruncateEventLog]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}ICG_SJ_TruncateEventLog]
+GO
+
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}ICG_SJ_TruncateEventLog]
+AS
+	DELETE FROM {databaseOwner}[{objectQualifier}ExceptionEvents]
+	DELETE FROM {databaseOwner}[{objectQualifier}Exceptions]
+	DELETE FROM {databaseOwner}[{objectQualifier}EventLog]
+GO

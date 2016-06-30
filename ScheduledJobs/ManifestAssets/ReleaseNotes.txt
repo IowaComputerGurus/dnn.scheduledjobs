@@ -1,1 +1,3 @@
-﻿
+﻿<h3>Version 07.04.00</h3>
+
+<p>This release is setup for DNN 7.4.0 and later.  THe EventLog purge will NOT truncate, but will simply "Clear" the log due to the desire to not break database integrity.</p>
