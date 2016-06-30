@@ -95,13 +95,6 @@
     <Compile Include="ScheduleInstaller.ascx.designer.cs">
       <DependentUpon>ScheduleInstaller.ascx</DependentUpon>
     </Compile>
-    <Compile Include="Settings.ascx.cs">
-      <DependentUpon>Settings.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Settings.ascx.designer.cs">
-      <DependentUpon>Settings.ascx</DependentUpon>
-    </Compile>
     <Compile Include="ViewScheduledSqlJobs.ascx.cs">
       <DependentUpon>ViewScheduledSqlJobs.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -113,6 +106,7 @@
   <ItemGroup>
     <None Include="BuildScripts\ModulePackage.targets" />
     <None Include="BuildScripts\MSBuild.Community.Tasks.Targets" />
+    <Content Include="Cleanup\07.00.01.txt" />
     <Content Include="packages.config" />
     <None Include="SqlDataProviderFiles\01.00.00.SqlDataProvider" />
     <None Include="SqlDataProviderFiles\01.05.00.SqlDataProvider" />
@@ -131,7 +125,6 @@
     <Content Include="ManifestAssets\License.txt" />
     <Content Include="ManifestAssets\ReleaseNotes.txt" />
     <Content Include="ScheduleInstaller.ascx" />
-    <Content Include="Settings.ascx" />
     <Content Include="ViewScheduledSqlJobs.ascx" />
   </ItemGroup>
   <ItemGroup>
