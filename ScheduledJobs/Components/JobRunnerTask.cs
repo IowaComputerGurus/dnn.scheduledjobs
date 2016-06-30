@@ -83,7 +83,7 @@ namespace ICG.Modules.ScheduledSqlJobs.Components
                     try
                     {
                         int rows = oController.ExecuteJob(oCurrentJob.JobScript, oJobInfo.IsCannedJob);
-                        result = "Success<br />" + rows.ToString() + " rows afected";
+                        result = "Success<br />" + rows.ToString() + " rows affected";
                     }
                     catch (Exception ex)
                     {

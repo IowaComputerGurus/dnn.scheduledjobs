@@ -1,6 +1,6 @@
 <dotnetnuke type="Package" version="5.0">
   <packages>
-    <package name="ICG.Modules.ScheduledSqlJobs" type="Module" version="07.00.01">
+    <package name="ICG.Modules.ScheduledSqlJobs" type="Module" version="07.04.00">
       <friendlyName>Scheduled SQL Jobs</friendlyName>
       <description>A module for running SQL Jobs at regular intervals across your DotNetNuke based site</description>
       <owner>
@@ -11,6 +11,9 @@
       </owner>
       <license src="License.txt" />
       <releaseNotes src="ReleaseNotes.txt" />
+      <dependencies>
+        <dependency type="CoreVersion">07.04.00</dependency>
+      </dependencies>
       <components>
 
         <component type="ResourceFile">
@@ -41,6 +44,11 @@
               <path>SqlDataProviderFiles</path>
               <name>02.00.00.SqlDataProvider</name>
               <version>02.00.00</version>
+            </script>
+            <script type="Install">
+              <path>SqlDataProviderFiles</path>
+              <name>07.04.00.SqlDataProvider</name>
+              <version>07.04.00</version>
             </script>
             <script type="UnInstall">
               <path>SqlDataProviderFiles</path>
