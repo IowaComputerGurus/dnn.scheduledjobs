@@ -1,0 +1,9 @@
+version: 7.4.{build}
+image: Visual Studio 2015
+configuration: Release
+before_build:
+- cmd: nuget restore
+build:
+  verbosity: minimal
+artifacts:
+- path: '**\*_Install.zip'
