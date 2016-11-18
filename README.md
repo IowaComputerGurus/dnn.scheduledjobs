@@ -1,4 +1,6 @@
 # ICG DNN Scheduled SQL Jobs
+[![Build status](https://ci.appveyor.com/api/projects/status/k8b5hg6l24k46107?svg=true)](https://ci.appveyor.com/project/IowaComputerGurus/dnn-scheduledjobs)
+
 Keeping a DotNetNuke site database clean can be a real nightmare for those hosting sites on shared hosting providers.  With this free module, we can help reduce the effort needed to keep your database working smooth as can be.
 
 This host only  module is great for running scheduled tasks toclean the EventLog, Site Log, Shrink the Database and other common tasks.  The module comes pre-configured with a number of jobs that will help improve the performance of your database.  It also supports the ability to define custom job types to execute tasks of your own.
