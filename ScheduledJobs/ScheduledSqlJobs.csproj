@@ -25,7 +25,10 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
+  <Import Project="BuildScripts\MSBuild.Community.Tasks.Targets" />
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
@@ -104,8 +107,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="appveyor.yml" />
-    <None Include="BuildScripts\ModulePackage.targets" />
+    <None Include="BuildScripts\ModulePackage.targets">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="BuildScripts\MSBuild.Community.Tasks.Targets" />
     <Content Include="BuildScripts\MSBuild.Community.Tasks.dll" />
     <Content Include="Cleanup\07.00.01.txt" />
@@ -175,6 +179,7 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
+    <Extension>zip</Extension>
     <DNNFileName>ScheduledSqlJobs</DNNFileName>
     <MSBuildCommunityTasksPath>BuildScripts</MSBuildCommunityTasksPath>
   </PropertyGroup>
