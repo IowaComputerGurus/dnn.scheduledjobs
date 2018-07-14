@@ -1,5 +1,5 @@
 # ICG DNN Scheduled SQL Jobs
-[![Build status](https://ci.appveyor.com/api/projects/status/k8b5hg6l24k46107?svg=true)](https://ci.appveyor.com/project/IowaComputerGurus/dnn-scheduledjobs)
+[![Build status](https://iowacomputergurus.visualstudio.com/_apis/public/build/definitions/50c931be-dbcb-44dd-a9bc-c5ae281e4051/22/badge)](https://iowacomputergurus.visualstudio.com/_apis/public/build/definitions/50c931be-dbcb-44dd-a9bc-c5ae281e4051/22/badge)
 
 Keeping a DotNetNuke site database clean can be a real nightmare for those hosting sites on shared hosting providers.  With this free module, we can help reduce the effort needed to keep your database working smooth as can be.
 
