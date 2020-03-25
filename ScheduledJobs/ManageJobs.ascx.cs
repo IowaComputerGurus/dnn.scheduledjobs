@@ -1,33 +1,10 @@
-﻿/*
- * Copyright (c) 2008-2010 IowaComputerGurus Inc (http://www.iowacomputergurus.com)
- * Copyright Contact: webmaster@iowacomputergurus.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy 
- * of this software and associated documentation files (the "Software"), to deal 
- * in the Software without restriction, including without limitation the rights to use, 
- * copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, 
- * and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all copies or substantial 
- * portions of the Software. 
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT 
- * NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
- * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
- * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
- * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE
- * */
+﻿// IowaComputerGurus, Inc. licenses this file to you under the MIT License
+// See the LICENSE file in the project root for more information
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
-using System.Web.UI;
 using System.Web.UI.WebControls;
-using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Modules;
-using DotNetNuke.Entities.Modules.Actions;
-using DotNetNuke.Services.Exceptions;
 using DotNetNuke.Services.Localization;
 
 using ICG.Modules.ScheduledSqlJobs.Components;
@@ -64,8 +41,8 @@ namespace ICG.Modules.ScheduledSqlJobs
 
         private void BindJobs()
         {
-            ScheduledSqlJobsController oController = new ScheduledSqlJobsController();
-            List<JobTypeInfo> oJobs = oController.GetEditableJobTypes();
+            var oController = new ScheduledSqlJobsController();
+            var oJobs = oController.GetEditableJobTypes();
             if (oJobs == null)
                 oJobs = new List<JobTypeInfo>();
             dgrExistingJobs.DataSource = oJobs;
@@ -76,10 +53,10 @@ namespace ICG.Modules.ScheduledSqlJobs
         {
             if (e.CommandName.Equals("Edit"))
             {
-                int jobTypeId = int.Parse(e.Item.Cells[0].Text);
-                ScheduledSqlJobsController oController = new ScheduledSqlJobsController();
-                JobTypeInfo oInfo = oController.GetJobTypeById(jobTypeId);
-                this.JobId = oInfo.JobTypeId;
+                var jobTypeId = int.Parse(e.Item.Cells[0].Text);
+                var oController = new ScheduledSqlJobsController();
+                var oInfo = oController.GetJobTypeById(jobTypeId);
+                JobId = oInfo.JobTypeId;
                 txtJobTitle.Text = oInfo.JobTitle;
                 txtJobDescription.Text = oInfo.JobDescription;
                 txtCannedProcedure.Text = oInfo.CannedProcedure;
@@ -89,8 +66,6 @@ namespace ICG.Modules.ScheduledSqlJobs
             }
         }
 
-        
-
         #region Add/Save/Cancel/Delete Methods
 
         protected void btnCancel_Click(object sender, EventArgs e)
@@ -98,26 +73,28 @@ namespace ICG.Modules.ScheduledSqlJobs
             txtJobTitle.Text = string.Empty;
             txtJobDescription.Text = string.Empty;
             txtCannedProcedure.Text = string.Empty;
-            this.JobId = -1;
+            JobId = -1;
             pnlEdit.Visible = false;
             pnlView.Visible = true;
         }
         protected void btnDelete_Click(object sender, EventArgs e)
         {
-            ScheduledSqlJobsController oCOntroller = new ScheduledSqlJobsController();
+            var oCOntroller = new ScheduledSqlJobsController();
             oCOntroller.DeleteJobType(this.JobId);
             BindJobs();
             btnCancel_Click(sender, e);
         }
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            ScheduledSqlJobsController oController = new ScheduledSqlJobsController();
-            JobTypeInfo oInfo = new JobTypeInfo();
-            oInfo.CannedProcedure = txtCannedProcedure.Text;
-            oInfo.IsCannedJob = false;
-            oInfo.JobDescription = txtJobDescription.Text;
-            oInfo.JobTitle = txtJobTitle.Text;
-            oInfo.JobTypeId = this.JobId;
+            var oController = new ScheduledSqlJobsController();
+            var oInfo = new JobTypeInfo
+            {
+                CannedProcedure = txtCannedProcedure.Text,
+                IsCannedJob = false,
+                JobDescription = txtJobDescription.Text,
+                JobTitle = txtJobTitle.Text,
+                JobTypeId = this.JobId
+            };
             oController.SaveJobType(oInfo);
             BindJobs();
             btnCancel_Click(sender, e);
@@ -127,7 +104,7 @@ namespace ICG.Modules.ScheduledSqlJobs
         {
             pnlView.Visible = false;
             pnlEdit.Visible = true;
-            this.JobId = -1;
+            JobId = -1;
         }
         #endregion
 

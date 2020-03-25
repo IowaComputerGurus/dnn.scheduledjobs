@@ -1,30 +1,9 @@
-/*
- * Copyright (c) 2008-2009 IowaComputerGurus Inc (http://www.iowacomputergurus.com)
- * Copyright Contact: webmaster@iowacomputergurus.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy 
- * of this software and associated documentation files (the "Software"), to deal 
- * in the Software without restriction, including without limitation the rights to use, 
- * copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, 
- * and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all copies or substantial 
- * portions of the Software. 
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT 
- * NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
- * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
- * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
- * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE
- * */
+// IowaComputerGurus, Inc. licenses this file to you under the MIT License
+// See the LICENSE file in the project root for more information
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
-using System.Web.UI;
 using System.Web.UI.WebControls;
-using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Entities.Modules.Actions;
 using DotNetNuke.Services.Exceptions;
@@ -41,18 +20,18 @@ namespace ICG.Modules.ScheduledSqlJobs
         {
             try
             {
-                ScheduleInstaller.ModuleConfiguration = this.ModuleConfiguration;
+                ScheduleInstaller.ModuleConfiguration = ModuleConfiguration;
 
                 if (!IsPostBack)
                 {
-                    if (this.UserInfo.IsSuperUser)
+                    if (UserInfo.IsSuperUser)
                     {
                         //Show proper panel
                         pnlViewJobs.Visible = true;
 
                         //Bind lookup items
-                        ScheduledSqlJobsController oController = new ScheduledSqlJobsController();
-                        List<JobTypeInfo> oTypes = oController.GetJobTypes();
+                        var oController = new ScheduledSqlJobsController();
+                        var oTypes = oController.GetJobTypes();
                         ddlJobType.DataSource = oTypes;
                         ddlJobType.DataTextField = "JobTitle";
                         ddlJobType.DataValueField = "JobTypeId";
@@ -87,8 +66,8 @@ namespace ICG.Modules.ScheduledSqlJobs
         /// </summary>
         private void BindJobsGrid()
         {
-            ScheduledSqlJobsController oController = new ScheduledSqlJobsController();
-            List<JobScheduleInfo> oJobs = oController.GetJobSchedule();
+            var oController = new ScheduledSqlJobsController();
+            var oJobs = oController.GetJobSchedule();
             if (oJobs == null)
                 oJobs = new List<JobScheduleInfo>();
 
@@ -105,8 +84,8 @@ namespace ICG.Modules.ScheduledSqlJobs
         {
             if (ddlJobType.SelectedIndex >= 0)
             {
-                ScheduledSqlJobsController oController = new ScheduledSqlJobsController();
-                JobTypeInfo oType = oController.GetJobTypeById(int.Parse(ddlJobType.SelectedValue));
+                var oController = new ScheduledSqlJobsController();
+                var oType = oController.GetJobTypeById(int.Parse(ddlJobType.SelectedValue));
                 lblJobDescriptionDisplay.Text = oType.JobDescription;
                 lblJobScriptDisplay.Text = oType.CannedProcedure;
             }
@@ -143,7 +122,7 @@ namespace ICG.Modules.ScheduledSqlJobs
         /// <param name="e"></param>
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            ScheduledSqlJobsController oController = new ScheduledSqlJobsController();
+            var oController = new ScheduledSqlJobsController();
             JobScheduleInfo oInfo;
 
             if (hfJobId.Value.Equals("-1"))
@@ -197,8 +176,8 @@ namespace ICG.Modules.ScheduledSqlJobs
         /// <param name="e"></param>
         protected void dgrJobs_ItemCommand(object source, DataGridCommandEventArgs e)
         {
-            ScheduledSqlJobsController oController = new ScheduledSqlJobsController();
-            int jobId = int.Parse(e.Item.Cells[0].Text);
+            var oController = new ScheduledSqlJobsController();
+            var jobId = int.Parse(e.Item.Cells[0].Text);
 
             //Take action
             if (e.CommandName.Equals("Edit"))
@@ -207,7 +186,7 @@ namespace ICG.Modules.ScheduledSqlJobs
                 hfJobId.Value = jobId.ToString();
 
                 //Get items to load
-                JobScheduleInfo oInfo = oController.GetJobScheduleItemById(jobId);
+                var oInfo = oController.GetJobScheduleItemById(jobId);
                 ddlJobType.SelectedValue = oInfo.JobTypeId.ToString();
                 ddlJobType_SelectedIndexChanged(this, EventArgs.Empty);
                 txtJobFrequency.Text = oInfo.JobFrequencyValue.ToString();
@@ -228,7 +207,7 @@ namespace ICG.Modules.ScheduledSqlJobs
             }
             else if (e.CommandName.Equals("History"))
             {
-                List<JobScheduleHistoryInfo> oHistory = oController.GetJobScheduleHistory(jobId);
+                var oHistory = oController.GetJobScheduleHistory(jobId);
                 if (oHistory == null)
                     oHistory = new List<JobScheduleHistoryInfo>();
                 dgrHistory.DataSource = oHistory;
@@ -240,10 +219,10 @@ namespace ICG.Modules.ScheduledSqlJobs
             else if (e.CommandName.Equals("Run"))
             {
                 //Manually run job
-                JobScheduleInfo oJob = oController.GetJobScheduleItemById(jobId);
-                JobTypeInfo oJobInfo = oController.GetJobTypeById(oJob.JobTypeId);
-                string result = "";
-                bool isSuccess = true;
+                var oJob = oController.GetJobScheduleItemById(jobId);
+                var oJobInfo = oController.GetJobTypeById(oJob.JobTypeId);
+                var result = "";
+                var isSuccess = true;
                 try
                 {
                     int rows = oController.ExecuteJob(oJob.JobScript, oJobInfo.IsCannedJob);
