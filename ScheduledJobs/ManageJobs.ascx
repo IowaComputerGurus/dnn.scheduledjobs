@@ -38,7 +38,7 @@
             </div>
             <div class="dnnFormItem">
                 <dnn:label id="lblCannedProcedure" runat="server" controlname="txtCannedProcedure" suffix=":" />
-                <asp:TextBox ID="txtCannedProcedure" runat="server" width="300px" Height="60px" TextMode="MultiLine" />
+                <asp:TextBox ID="txtCannedProcedure" runat="server" width="300px" Height="100px" TextMode="MultiLine" />
                 <asp:RequiredFieldValidator ID="CannedProcedureRequired" runat="server" CssClass="dnnFormError dnnFormMessage" Display="Dynamic" ControlToValidate="txtCannedProcedure" resourcekey="RequiredField" />
             </div>
             <ul class="ulActions">
