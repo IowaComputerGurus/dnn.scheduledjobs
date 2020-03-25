@@ -9,7 +9,7 @@ With full support for regular intervals of execution it makes database administr
 
 ## Minimum DNN Version
 
-Starting with Version 09.00.00 of this module you must be using DNN Version 9.0.0 or later.  
+Starting with Version 08.00.04 of this module you must be using DNN Version 9.0.0 or later.  
 
 ## Included Tasks
 
