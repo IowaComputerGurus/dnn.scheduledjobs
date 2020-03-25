@@ -11,3 +11,10 @@ With full support for regular intervals of execution it makes database administr
 
 Starting with Version 09.00.00 of this module you must be using DNN Version 9.0.0 or later.  
 
+## Included Tasks
+
+The following tasks are included as part of the default installation of this module.
+
+* Clear Admin Logs - This process clears the internal Exceptions, ExceptionEvents, and EventLog tables within DNN Platform.  These tables can at times grow excessivly and this job does a proper truncate by removing the Foreign Keys, Truncating Data, and Re-adding the Foreign Keys.  
+* Clean Site Log - This purges the 'SiteLog' database table.  This table should not be used in current versions of DNN
+* Shrink Database - This executes a 'DBCC SHRINKDATABASE' command for the current database

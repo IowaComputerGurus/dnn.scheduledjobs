@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("IowaComputerGurus Inc.")]
 [assembly: AssemblyProduct("ScheduledSqlJobs")]
-[assembly: AssemblyCopyright("Copyright 2007-2010 IowaComputerGurus Inc.")]
+[assembly: AssemblyCopyright("Copyright 2007-2020 IowaComputerGurus Inc.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

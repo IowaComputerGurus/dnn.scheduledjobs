@@ -118,6 +118,7 @@
     <Content Include="SqlDataProviderFiles\07.04.00.SqlDataProvider" />
     <None Include="SqlDataProviderFiles\02.00.00.SqlDataProvider" />
     <None Include="ScheduledSqlJobs.dnn" />
+    <Content Include="SqlDataProviderFiles\08.00.01.SqlDataProvider" />
     <None Include="SqlDataProviderFiles\Uninstall.SqlDataProvider" />
   </ItemGroup>
   <ItemGroup>
