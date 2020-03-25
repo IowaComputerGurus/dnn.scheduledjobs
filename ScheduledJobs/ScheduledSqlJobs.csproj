@@ -27,6 +27,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <Import Project="BuildScripts\MSBuild.Community.Tasks.Targets" />
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -51,13 +52,11 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DotNetNuke, Version=7.0.0.1589, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotNetNuke.Core.7.0.0\lib\DotNetNuke.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="DotNetNuke, Version=9.0.0.1002, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetNuke.Core.9.0.0.1002\lib\net40\DotNetNuke.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ApplicationBlocks.Data, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotNetNuke.Core.7.0.0\lib\Microsoft.ApplicationBlocks.Data.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\DotNetNuke.Core.9.0.0.1002\lib\net40\Microsoft.ApplicationBlocks.Data.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -113,7 +112,7 @@
     <None Include="BuildScripts\MSBuild.Community.Tasks.Targets" />
     <Content Include="BuildScripts\MSBuild.Community.Tasks.dll" />
     <Content Include="Cleanup\07.00.01.txt" />
-    <Content Include="packages.config" />
+    <None Include="packages.config" />
     <None Include="SqlDataProviderFiles\01.00.00.SqlDataProvider" />
     <None Include="SqlDataProviderFiles\01.05.00.SqlDataProvider" />
     <Content Include="SqlDataProviderFiles\07.04.00.SqlDataProvider" />
