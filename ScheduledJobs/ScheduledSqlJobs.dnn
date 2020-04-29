@@ -9,8 +9,8 @@
         <url>http://www.iowacomputergurus.com</url>
         <email>webmaster@iowacomputergurus.com</email>
       </owner>
-      <license src="License.txt" />
-      <releaseNotes src="ReleaseNotes.txt" />
+      <license src="ManifestAssets\License.txt" />
+      <releaseNotes src="ManifestAssets\ReleaseNotes.txt" />
       <dependencies>
         <dependency type="CoreVersion">09.00.00</dependency>
       </dependencies>
