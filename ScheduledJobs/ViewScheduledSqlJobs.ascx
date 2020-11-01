@@ -97,5 +97,5 @@
 </asp:Panel>
 
 <p class="Normal">
-<a href="http://www.iowacomputergurus.com/Products/Open-Source" target="_blank" class="CommandButton">Scheduled SQL Jobs is a free module provided by IowaComputerGurus Inc. (Donations Appreciated)</a>
+<a href="https://www.iowacomputergurus.com/marketplace/open-source" target="_blank" class="CommandButton">Scheduled SQL Jobs is a free module provided by IowaComputerGurus Inc. (Donations Appreciated)</a>
 </p>
